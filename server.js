@@ -2,6 +2,7 @@ const fs = require('fs');
 const timeStamp = require('./time.js').timeStamp;
 const http = require('http');
 const WebApp = require('./webapp');
+const File = require('./public/file');
 let registered_users = [{userName:'bhanutv',name:'Bhanu Teja Verma'},{userName:'harshab',name:'Harsha Vardhana'}];
 let toS = o=>JSON.stringify(o,null,2);
 
@@ -105,6 +106,14 @@ app.get('/home',(req,res)=>{
     res.end();
   });
 });
+
+app.get('/public/toDoPage.html',(req,res)=>{
+  respondToFile(req,res);
+})
+
+app.get('/createNewToDo',(req,res)=>{
+  res.redirect('/public/toDoPage.html');
+})
 
 app.get('/logout',(req,res)=>{
   res.setHeader('Set-Cookie',[`loginFailed=false,Expires=${new Date(1).toUTCString()}`,`sessionid=0,Expires=${new Date(1).toUTCString()}`]);

@@ -2,9 +2,27 @@
   height: 1000px;
   width: 850px;
   margin-left: 200px;
+  font-family: sans-serif;
 }
 
 #logoutOption {
   margin-left: 780px;
   margin-top: -30px;
+}
+
+#todoHeader {
+  margin-top: 30px;
+  margin-left: 15px;
+}
+
+#toDoLists {
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-top: -5px;
+}
+
+#createNewToDoOPtion {
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-top: -10px;
 }
