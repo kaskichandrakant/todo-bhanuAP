@@ -62,7 +62,11 @@ let respondToFile = (req,res)=>{
 let respondToData = function(req,res) {
   res.setHeader('Content-Type',getContentType(req.url));
   res.statusCode = 200;
-  res.write(req.user.userName);
+  // res.write(req.user.userName);
+  fs.writeFile('./data/'+req.user.userName+'.txt',fs.readFileSync('./data/'+req.user.userName+'.txt')+req.body.title+'&'+req.body.description+'&'+req.body.toDo+';', function(err) {
+    if (err) throw err;
+  console.log('new toDo is saved!');
+  });
   res.end();return;
 }
 
@@ -124,12 +128,6 @@ app.get('/createNewToDo',(req,res)=>{
 })
 
 app.get('/css/master.css',(req,res)=>{
-  if(req.user)
-    respondToFile(req,res);
-  else res.redirect('/login');
-})
-
-app.get('/public/data.js',(req,res)=>{
   if(req.user)
     respondToFile(req,res);
   else res.redirect('/login');
