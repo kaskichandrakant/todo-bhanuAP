@@ -6,6 +6,7 @@ let request = function(app,options,onComplete){
   req.method = options.method;
   req.url = options.url;
   req.headers = options.headers||{};
+  req.body = options.body||'';
   let res={
     end:()=>{
       res.finished = true;
