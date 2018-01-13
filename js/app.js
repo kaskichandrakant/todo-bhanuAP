@@ -59,13 +59,15 @@ let respondToFile = (req,res)=>{
   res.end();return;
 }
 
-let parseContent = function(data) {
-  return data.split(';')[0].split('&').join('\n');
+let getLastToDoItem = function(data) {
+  data = data.substring(0,data.length -1)
+  data = data.split(';');
+  return data[data.length-1].split('&').join('\n');
 }
 
 let writeToDo = (req,res)=>{
   let toDoFileData = unescape(fs.readFileSync('./data/'+req.user.userName+'.txt'));
-  res.write(unescape(parseContent(toDoFileData)));
+  res.write(unescape(getLastToDoItem(toDoFileData).split('+').join(' ')));
   res.end();
 }
 
