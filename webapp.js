@@ -62,7 +62,7 @@ const main = function(req,res){
   req.urlIsOneOf = urlIsOneOf.bind(req);
   req.cookies = parseCookies(req.headers.cookie||'');
   let content="";
-  req.on('data',data=>content+=data.toString())
+  req.on('data',data=>content+=data.toString());
   req.on('end',()=>{
     req.body = parseBody(content);
     content="";

@@ -7,13 +7,14 @@
   </head>
   <body>
     <div class="middleColumn">
+      <a href="/logout"><button type="submit" name='logout' id="logoutOption">Logout</button></a>
       <h2>Add a new toDo:-</h2>
-      <textarea name="name" rows="2" cols="100" placeholder="Add a title"></textarea>
-      <textarea name="name" rows="3.5" cols="100" placeholder="Add a description"></textarea>
-      <textarea name="name" rows="2" cols="100" placeholder="Add toDo"></textarea>
-      <div class="toDoReadyButton">
-        <button type="submit" name="newToDo">Ready</button>
-      </div>
+      <form action="../server.js" method="post">
+        <textarea type="text" name="title" rows="2" cols="100" placeholder="Add a title"></textarea>
+        <textarea type="text" name="description" rows="3.5" cols="100" placeholder="Add a description"></textarea>
+        <textarea type="text" name="toDo" rows="30" cols="100" placeholder="Add toDo"></textarea><br>
+        <button type="submit">Ready</button>
+      </form>
     </div>
   </body>
 </html>

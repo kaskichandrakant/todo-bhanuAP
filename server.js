@@ -57,8 +57,14 @@ let respondToFile = (req,res)=>{
   res.setHeader('Content-Type',getContentType(req.url));
   res.statusCode = 200;
   res.write(data);
-  res.end();
-  return;
+  res.end();return;
+}
+
+let respondToData = function(req,res) {
+  res.setHeader('Content-Type',getContentType(req.url));
+  res.statusCode = 200;
+  res.write(req.user.userName);
+  res.end();return;
 }
 
 let app = WebApp.create();
@@ -67,17 +73,12 @@ app.preProcess(loadUser);
 app.preProcess(redirectLoggedInUserToHome);
 app.preProcess(redirectLoggedOutUserToLogin);
 
-app.get('/css/master.css',(req,res)=>{
-  respondToFile(req,res)
-})
-
-app.get('/public/data.js',(req,res)=>{
-  respondToFile(req,res)
-})
-
 app.get('/login',(req,res)=>{
+  if(req.user) {
+    res.redirect('./home');
+    return;
+  }
   res.setHeader('Content-type','text/html');
-  if(req.cookies.logInFailed) res.write('<p>logIn Failed</p>');
   res.write('<form method="POST"> <input name="userName"><input name="place"> <input type="submit"></form>');
   res.end();
 });
@@ -96,6 +97,10 @@ app.post('/login',(req,res)=>{
 });
 
 app.get('/home',(req,res)=>{
+  if(!req.user) {
+    res.redirect('/login');
+    return;
+  }
   fs.readFile('./index.html', 'utf8', (err,data)=>{
     if (err) {
       throw err;
@@ -108,12 +113,35 @@ app.get('/home',(req,res)=>{
 });
 
 app.get('/public/toDoPage.html',(req,res)=>{
-  respondToFile(req,res);
+  if(req.user)
+    respondToFile(req,res);
+  else res.redirect('/login');
 })
 
 app.get('/createNewToDo',(req,res)=>{
+  if(req.user)
   res.redirect('/public/toDoPage.html');
+  else res.redirect('/login');
 })
+
+app.get('/css/master.css',(req,res)=>{
+  if(req.user)
+    respondToFile(req,res);
+  else res.redirect('/login');
+})
+
+app.get('/public/data.js',(req,res)=>{
+  if(req.user)
+    respondToFile(req,res);
+  else res.redirect('/login');
+})
+
+app.post('/server.js',(req,res)=>{
+  if(req.user)
+  respondToData(req,res);
+  else res.redirect('/login');
+})
+
 
 app.get('/logout',(req,res)=>{
   res.setHeader('Set-Cookie',[`loginFailed=false,Expires=${new Date(1).toUTCString()}`,`sessionid=0,Expires=${new Date(1).toUTCString()}`]);

@@ -2,8 +2,9 @@ let chai = require('chai');
 let assert = chai.assert;
 let request = require('./requestSimulator.js');
 process.env.COMMENT_STORE = "./testStore.json";
-let app = require('../app.js');
+let WebApp = require('../webapp');
 let th = require('./testHelper.js');
+let app = WebApp.create();
 
 describe('app',()=>{
   describe('GET /bad',()=>{
@@ -15,9 +16,9 @@ describe('app',()=>{
     })
   })
   describe('GET /',()=>{
-    it('redirects to index.html',done=>{
+    it('redirects to home',done=>{
       request(app,{method:'GET',url:'/'},(res)=>{
-        th.should_be_redirected_to(res,'/index.html');
+        th.should_be_redirected_to(res,'/home');
         assert.equal(res.body,"");
         done();
       })
