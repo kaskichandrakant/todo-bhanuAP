@@ -59,15 +59,24 @@ let respondToFile = (req,res)=>{
   res.end();return;
 }
 
+let parseContent = function(data) {
+  return data.split(';')[0].split('&').join('\n');
+}
+
+let writeToDo = (req,res)=>{
+  let toDoFileData = unescape(fs.readFileSync('./data/'+req.user.userName+'.txt'));
+  res.write(unescape(parseContent(toDoFileData)));
+  res.end();
+}
+
 let respondToData = function(req,res) {
   res.setHeader('Content-Type',getContentType(req.url));
   res.statusCode = 200;
-  // res.write(req.user.userName);
   fs.writeFile('./data/'+req.user.userName+'.txt',fs.readFileSync('./data/'+req.user.userName+'.txt')+req.body.title+'&'+req.body.description+'&'+req.body.toDo+';', function(err) {
     if (err) throw err;
   console.log('new toDo is saved!');
   });
-  res.end();return;
+  res.redirect('/getMyToDo');
 }
 
 let app = WebApp.create();
@@ -139,6 +148,11 @@ app.post('/server.js',(req,res)=>{
   else res.redirect('/login');
 })
 
+app.get('/getMyToDo',(req,res)=>{
+  if(req.user)
+  writeToDo(req,res);
+  else res.redirect('/login');
+})
 
 app.get('/logout',(req,res)=>{
   res.setHeader('Set-Cookie',[`loginFailed=false,Expires=${new Date(1).toUTCString()}`,`sessionid=0,Expires=${new Date(1).toUTCString()}`]);
