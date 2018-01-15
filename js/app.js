@@ -150,7 +150,7 @@ app.post('/addToDo',(req,res)=>{
   else res.redirect('/login');
 })
 
-app.get('/yourToDo',(req,res)=>{
+app.get('/newToDo',(req,res)=>{
   if(req.user)
   writeToDo(req,res);
   else res.redirect('/login');
