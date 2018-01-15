@@ -72,13 +72,13 @@ let writeToDo = (req,res)=>{
 }
 
 let respondToData = function(req,res) {
-  res.setHeader('Content-Type',getContentType(req.url));
+  res.setHeader('Content-Type','text/html');
   res.statusCode = 200;
   fs.writeFile('./data/'+req.user.userName+'.txt',fs.readFileSync('./data/'+req.user.userName+'.txt')+req.body.title+'&'+req.body.description+'&'+req.body.toDo+';', function(err) {
     if (err) throw err;
   console.log('new toDo is saved!');
   });
-  res.redirect('/getMyToDo');
+  res.redirect('/yourToDo');
 }
 
 let app = WebApp.create();
@@ -144,13 +144,13 @@ app.get('/css/master.css',(req,res)=>{
   else res.redirect('/login');
 })
 
-app.post('/server.js',(req,res)=>{
+app.post('/addToDo',(req,res)=>{
   if(req.user)
   respondToData(req,res);
   else res.redirect('/login');
 })
 
-app.get('/getMyToDo',(req,res)=>{
+app.get('/yourToDo',(req,res)=>{
   if(req.user)
   writeToDo(req,res);
   else res.redirect('/login');
