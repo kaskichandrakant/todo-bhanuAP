@@ -68,7 +68,7 @@ describe('app',()=>{
   })
 
   describe('POST /login',()=>{
-    it('redirects to guestBook for valid user',done=>{
+    it('redirects to home for valid user',done=>{
       request(app,{method:'POST',url:'/login',body:'userName=bhanutv'},res=>{
         th.should_be_redirected_to(res,'/home');
         th.should_not_have_cookie(res,'message');
@@ -79,6 +79,24 @@ describe('app',()=>{
       request(app,{method:'POST',url:'/login',body:'username=badUser'},res=>{
         th.should_be_redirected_to(res,'/login');
         th.body_does_not_contain(res,'logInFailed=true');
+        done();
+      })
+    })
+  })
+
+  describe('/createNewToDo',()=>{
+    it('redirects to login page if user is bad user',done=>{
+      request(app,{method:'GET',url:'/createNewToDo',body:'userName=badUser'},res=>{
+        th.should_be_redirected_to(res,'/login');
+        th.body_does_not_contain(res,'logInFailed=true');
+        done();
+      })
+    })
+    it('redirects to /public/toDoPage.html for valid user',done=>{
+      request(app,{method:'GET',url:'/createNewToDo',body:'userName=harshab'},res=>{
+        th.status_is_ok(res);
+        th.body_contains(res,'Add a new toDo:-');
+        // th.should_not_have_cookie(res,'message');
         done();
       })
     })

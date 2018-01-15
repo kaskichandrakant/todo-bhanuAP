@@ -59,7 +59,7 @@ let respondToFile = (req,res)=>{
   res.end();return;
 }
 
-let getLastToDoItem = function(data) {
+let getPreviousToDoItem = function(data) {
   data = data.substring(0,data.length -1)
   data = data.split(';');
   return data[data.length-1].split('&').join('\n');
@@ -67,7 +67,7 @@ let getLastToDoItem = function(data) {
 
 let writeToDo = (req,res)=>{
   let toDoFileData = unescape(fs.readFileSync('./data/'+req.user.userName+'.txt'));
-  res.write(unescape(getLastToDoItem(toDoFileData).split('+').join(' ')));
+  res.write(unescape(getPreviousToDoItem(toDoFileData).split('+').join(' ')));
   res.end();
 }
 
@@ -78,14 +78,27 @@ let respondToData = function(req,res) {
     if (err) throw err;
   console.log('new toDo is saved!');
   });
-  res.redirect('/yourToDo');
+  res.redirect('/userToDo');
 }
+
+const serveStaticFile = function(req,res) {
+  if(fs.existsSync('.'+req.url)) {
+    if(req.user) {
+      res.setHeader('Content-type',getContentType(req.url));
+      res.statusCode = 200;
+      let fileContent = fs.readFileSync('.'+req.url);
+      res.write(fileContent);
+      res.end();
+    } else res.redirect('/login');
+  }
+};
 
 let app = WebApp.create();
 app.preProcess(logRequest);
 app.preProcess(loadUser);
 app.preProcess(redirectLoggedInUserToHome);
 app.preProcess(redirectLoggedOutUserToLogin);
+app.preProcess(serveStaticFile);
 
 app.get('/login',(req,res)=>{
   if(req.user) {
@@ -126,35 +139,24 @@ app.get('/home',(req,res)=>{
   });
 });
 
-app.get('/public/toDoPage.html',(req,res)=>{
-  if(req.user)
-    respondToFile(req,res);
-  else res.redirect('/login');
-})
-
 app.get('/createNewToDo',(req,res)=>{
-  if(req.user)
-  res.redirect('/public/toDoPage.html');
-  else res.redirect('/login');
-})
+  if(req.user) {
+    res.write('./public/toDoPage.html');
+    res.end();
+  } else res.redirect('/login');
+});
 
-app.get('/css/master.css',(req,res)=>{
-  if(req.user)
-    respondToFile(req,res);
-  else res.redirect('/login');
-})
-
-app.post('/addToDo',(req,res)=>{
+app.post('/newToDo',(req,res)=>{
   if(req.user)
   respondToData(req,res);
   else res.redirect('/login');
-})
+});
 
-app.get('/newToDo',(req,res)=>{
+app.get('/userToDo',(req,res)=>{
   if(req.user)
   writeToDo(req,res);
   else res.redirect('/login');
-})
+});
 
 app.get('/logout',(req,res)=>{
   res.setHeader('Set-Cookie',[`loginFailed=false,Expires=${new Date(1).toUTCString()}`,`sessionid=0,Expires=${new Date(1).toUTCString()}`]);

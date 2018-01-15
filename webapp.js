@@ -8,7 +8,6 @@ const accumulate = (o,kv)=> {
 };
 const parseBody = text=> text && text.split('&').map(toKeyValue).reduce(accumulate,{}) || {};
 let redirect = function(path){
-  // console.log(`redirecting to ${path}`);
   this.statusCode = 302;
   this.setHeader('location',path);
   this.end();
@@ -72,6 +71,7 @@ const main = function(req,res){
     invoke.call(this,req,res);
     if(res.finished) return;
     handleProcess(req,res,this._postprocess);
+    if(res.finished) return;
   });
 };
 
