@@ -5,8 +5,8 @@ const ContentParser = function() {
 }
 
 ContentParser.prototype = {
-  parseContent: function(title,body,toDoList) {
-    return `{title:${title},body:${body},toDoList:${toDoList}}`;
+  parseContent: function(title,description,todoList) {
+    return `{"title":"${title}","description":"${description}","todoList":"${todoList}"}`;
   }
 }
 

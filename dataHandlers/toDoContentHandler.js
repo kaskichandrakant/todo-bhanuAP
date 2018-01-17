@@ -1,31 +1,42 @@
 const fs = require('fs');
 const ContentParser = require('./parseContent');
+const GetHtmlFormat = require('./htmlConverter');
 contentParser=new ContentParser();
+htmlConverter=new GetHtmlFormat();
 
-const ToDoContentHandler=function() {
-  this.purpose='handlesToDoData';
+const TodoContentHandler=function() {
+  this.purpose='handlesTodoData';
 }
 
-ToDoContentHandler.prototype = {
+TodoContentHandler.prototype = {
 
-  storeData:function(userFile,title,body,toDoList) {
-    let userToDoList = JSON.parse(fs.readFileSync(userFile,'utf8'));
-    let toDoContent = contentParser.parseContent(title,body,toDoList);
-    userToDoList.push(toDoContent);
-    fs.writeFileSync(userFile, JSON.stringify(userToDoList));
-    return userToDoList;
+  storeData:function(userFile,title,body,todoList) {
+    let userTodoList = JSON.parse(fs.readFileSync(userFile,'utf8'));
+    let todoContent = contentParser.parseContent(title,body,todoList);
+    userTodoList.push(todoContent);
+    fs.writeFileSync(userFile, JSON.stringify(userTodoList));
+    return userTodoList;
   },
 
-  handleData:function(userName,title,body,toDoList) {
+  handleData:function(userName,title,body,todoList) {
     let userFile = './data/'+userName+'.json';
     if(fs.existsSync(userFile)) {
-      return this.storeData(userFile,title,body,toDoList);
+      return this.storeData(userFile,title,body,todoList);
     } else {
       fs.writeFileSync('./data/'+userName+'.json',JSON.stringify([]));
-      return this.handleData(userName,title,body,toDoList);
+      return this.handleData(userName,title,body,todoList);
     }
+  },
+
+  getPrevioustodoItem:function(filePath){
+    if(fs.existsSync(filePath)) {
+      let fileContent=JSON.parse(fs.readFileSync(filePath,'utf8'));
+      let lastTodoItem = JSON.parse(fileContent[fileContent.length-1]);
+      return htmlConverter.getHtmlFormat(lastTodoItem);
+    }
+    return '';
   }
 
 }
 
-module.exports = ToDoContentHandler;
+module.exports = TodoContentHandler;

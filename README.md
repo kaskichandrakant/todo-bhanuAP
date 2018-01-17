@@ -1,4 +1,4 @@
-# TODO App
+# todo App
 
 ## Objective
 

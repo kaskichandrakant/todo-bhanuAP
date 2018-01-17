@@ -15,14 +15,18 @@
   margin-left: 15px;
 }
 
-#toDoLists {
+#todoLists {
   margin-top: 30px;
   margin-left: 15px;
   margin-top: -5px;
 }
 
-#createNewToDoOPtion {
+#createNewTodoOPtion {
   margin-top: 30px;
   margin-left: 15px;
   margin-top: -10px;
+}
+
+.data {
+  margin-left: 50px;
 }

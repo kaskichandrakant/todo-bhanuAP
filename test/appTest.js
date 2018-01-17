@@ -39,9 +39,9 @@ describe('app',()=>{
       })
     })
   })
-  describe('GET /public/toDo.html',()=>{
+  describe('GET /public/todo.html',()=>{
     it('serves the javascript source',done=>{
-      request(app,{method:'GET',url:'/public/toDoPage.html'},res=>{
+      request(app,{method:'GET',url:'/public/todoPage.html'},res=>{
         th.should_be_redirected_to(res,'/login');
         done();
       })
@@ -84,9 +84,9 @@ describe('app',()=>{
     })
   })
 
-  describe('/createNewToDo',()=>{
+  describe('/createNewTodo',()=>{
     it('redirects to login page if user is bad user',done=>{
-      request(app,{method:'GET',url:'/createNewToDo',body:'userName=badUser'},res=>{
+      request(app,{method:'GET',url:'/createNewTodo',body:'userName=badUser'},res=>{
         th.should_be_redirected_to(res,'/login');
         th.body_does_not_contain(res,'logInFailed=true');
         done();
