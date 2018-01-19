@@ -1,6 +1,6 @@
 let viewTodo=function(event){
   let reqListener=function(){
-    document.getElementById(event.target.id).innerHTML=this.responseText
+    document.getElementById(event.target.id+'_items').innerHTML=this.responseText
   }
 
   let xhr=new XMLHttpRequest

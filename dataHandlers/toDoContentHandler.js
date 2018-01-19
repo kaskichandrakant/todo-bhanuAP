@@ -18,13 +18,13 @@ TodoContentHandler.prototype = {
     return userTodoList;
   },
 
-  handleData: function(userName, title, body, todoList) {
-    let userFile = './data/' + userName + '.json';
+  handleData: function(user,todo) {
+    let userFile = './data/' + user.userName + '.json';
     if (fs.existsSync(userFile)) {
-      return this.storeData(userFile, title, body, todoList);
+      return this.storeData(userFile, todo.title, todo.description, todo.todoItems.join('<br>'));
     }
-    fs.writeFileSync('./data/' + userName + '.json', JSON.stringify([]));
-    return this.handleData(userName, title, body, todoList);
+    fs.writeFileSync('./data/' + user.userName + '.json', JSON.stringify([]));
+    return this.handleData(user.userName, todo.title, todo.description, todo.todoItems);
   },
 
   getPrevioustodoItem: function(filePath) {
