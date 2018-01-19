@@ -40,6 +40,14 @@ TodoContentHandler.prototype = {
       return JSON.parse(fs.readFileSync(filePath,'utf8'));
     }
     return [];
+  },
+  getTodoItem:function(userName,title){
+    let filePath = './data/'+userName+'.json';
+    let fileContent=JSON.parse(fs.readFileSync(filePath,'utf8'));
+    let todo=fileContent.find(element=>{
+      return element.title==title;
+    })
+    return htmlConverter.getHtmlFormat(todo);
   }
 }
 
