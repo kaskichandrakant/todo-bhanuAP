@@ -84,7 +84,7 @@ describe('app',()=>{
     })
   })
 
-  describe('/createNewTodo',()=>{
+  describe.skip('/createNewTodo',()=>{
     it('redirects to login page if user is bad user',done=>{
       request(app,{method:'GET',url:'/createNewTodo',body:'userName=badUser'},res=>{
         th.should_be_redirected_to(res,'/login');
@@ -92,5 +92,15 @@ describe('app',()=>{
         done();
       })
     })
+    let headers = {
+      cookie: 'sessionId=151826474749'
+    }
+    it('redirects to ./public/todoPage.html is user is valid user',done=>{
+      request(app,{ method:'GET', url: "/createNewTodo", headers: headers },(res)=>{
+        th.should_be_redirected_to(res,'./public/toDoPage.html');
+        done();
+      })
+    })
   })
+
 })
