@@ -24,7 +24,7 @@ TodoContentHandler.prototype = {
       return this.storeData(userFile, todo.title, todo.description, todo.todoItems.join('<br>'));
     }
     fs.writeFileSync('./data/' + user.userName + '.json', JSON.stringify([]));
-    return this.handleData(user.userName, todo.title, todo.description, todo.todoItems);
+    return this.handleData(user,todo);
   },
 
   getPrevioustodoItem: function(filePath) {
@@ -48,6 +48,12 @@ TodoContentHandler.prototype = {
       return element.title==title;
     })
     return htmlConverter.getHtmlFormat(todo);
+  },
+  removeDeletedTodoFromData:function(userName,data){
+    let filePath = './data/'+userName+'.json';
+    let fileContent=JSON.stringify(data)
+    fs.writeFileSync(filePath,fileContent);
+    return;
   }
 }
 

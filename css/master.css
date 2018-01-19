@@ -29,3 +29,12 @@
 .data {
   margin-left: 50px;
 }
+
+#deleteTodo{
+  margin-left: 300px;
+}
+
+.deleteButton{
+  float: left;
+  margin-right: 20px;
+}
