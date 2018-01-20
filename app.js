@@ -18,6 +18,8 @@ const redirectLoggedOutUserToLogin = utility.redirectLoggedOutUserToLogin;
 const serveStaticFile = utility.serveStaticFile;
 const decodeString = utility.decodeString;
 
+
+
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 
 todoContentHandler = new TodoContentHandler();
@@ -36,7 +38,7 @@ let parseItems = (items) => {
   let objKeys = Object.keys(items);
   objKeys.forEach(element=>{
     if(element.startsWith('item')){
-      itemsList.push({task:decodeString(items[element]),status:'added'});
+      itemsList.push({task:items[element],status:'added'});
     }
   })
   return itemsList;
@@ -123,16 +125,16 @@ let getLogout = (req, res) => {
 };
 
 let createNewTodoHandler = (req, res) => {
-    res.redirect('/todo.html');
-    res.end();
+  res.redirect('/todo.html');
+  res.end();
 };
 
 let newTodoHandler = (req, res) => {
-    respondToData(req, res);
+  respondToData(req, res);
 };
 
 let userTodoHandler = (req, res) => {
-    writeTodo(req, res);
+  writeTodo(req, res);
 };
 
 let viewTodoHandler = (req, res) => {
@@ -148,6 +150,20 @@ let deleteTodoHandler = (req, res) => {
   let todo = data.find(e => e.title == id);
   data.splice(data.indexOf(todo), 1);
   todoContentHandler.removeDeletedTodoFromData(userName, data);
+  res.end();
+}
+
+let deleteTodoItemHandler=(req,res)=>{
+  let userName = req.user.userName;
+  let titleId = req.body.todoId;
+  let todoItemId = req.body.item;
+  let data = todoContentHandler.getAllItems(userName);
+  let todo=data.find(element=>element.title == titleId);
+  let todoList=JSON.parse(todo.todoList);
+  let todoItem=todoList.find(element=>element.task==todoItemId);
+  todoList.splice(todoList.indexOf(todoItem),1);
+  todo.todoList = JSON.stringify(todoList);
+  todoContentHandler.removeDeletedTodoFromData(userName,data);
   res.end();
 }
 
@@ -168,5 +184,6 @@ app.post('/newTodo', newTodoHandler);
 app.post('/deleteTodo', deleteTodoHandler);
 app.get('/userTodo', userTodoHandler);
 app.get('/createNewTodo', createNewTodoHandler);
+app.post('/deleteItem',deleteTodoItemHandler);
 
 module.exports = app;

@@ -21,7 +21,6 @@ TodoContentHandler.prototype = {
   handleData: function(user,todo) {
     let userFile = './data/' + user.userName + '.json';
     let todoItems=JSON.stringify(todo.todoItems);
-    console.log(todoItems);
     if (fs.existsSync(userFile)) {
       return this.storeData(userFile, todo.title, todo.description, todoItems);
     }
@@ -53,7 +52,7 @@ TodoContentHandler.prototype = {
   },
   removeDeletedTodoFromData:function(userName,data){
     let filePath = './data/'+userName+'.json';
-    let fileContent=JSON.stringify(data)
+    let fileContent=JSON.stringify(data);
     fs.writeFileSync(filePath,fileContent);
     return;
   }

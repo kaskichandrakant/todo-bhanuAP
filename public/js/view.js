@@ -20,3 +20,16 @@ let deleteTodo=function(event){
   xhr.open('POST','deleteTodo');
   xhr.send(`todoId=${todoId}`);
 }
+
+let deleteItem=function(event){
+  let reqListener=function(){
+    window.location.reload();
+  }
+
+  let xhr=new XMLHttpRequest
+  let title=event.target.id.split('_')[1];
+  let todoItem=event.target.id.split('_')[2];
+  xhr.addEventListener('load',reqListener);
+  xhr.open('POST','deleteItem');
+  xhr.send(`todoId=${title}&item=${todoItem}`);
+}

@@ -11,14 +11,14 @@ HtmlConverter.prototype = {
       <h3> <i>description :</i></h3>
           <p class="data">${data.description}</p>
       <h3> <i>todo list :</i> </h3>
-          <p class="data">${this.getTodoListItems(data.todoList)}</p>
+          ${this.getTodoListItems(data.title,data.todoList)}
     </div></body><html>`
   },
-  getTodoListItems: function(data) {
+  getTodoListItems: function(title,todoList) {
     let htmlData = '';
-    let dataList=JSON.parse(data);
-    dataList.forEach(ele => {
-      htmlData += ele.task+'<br>';
+    let dataList=JSON.parse(todoList);
+    dataList.forEach((element,index)=> {
+      htmlData += `<button class="deleteButton" id=delete_${title}_${element.task} onclick=deleteItem(event)>Delete</button>${decodeString(element.task)}</br>`;
     });
     return htmlData;
   }
