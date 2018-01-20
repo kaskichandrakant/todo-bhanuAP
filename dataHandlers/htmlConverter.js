@@ -2,7 +2,7 @@ const HtmlConverter=function() {}
 
 HtmlConverter.prototype = {
   getHtmlFormat:function(data) {
-    return `<html><link rel="stylesheet" href="./css/master.css"></head>
+    return `<html><link rel="stylesheet" href="/css/master.css"></head>
     <body><div class="middleColumn">
     <a href="/home">Close This Todo</a>
       <h3> <i>title :</i> </h3>

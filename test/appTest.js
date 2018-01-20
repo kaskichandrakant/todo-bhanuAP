@@ -1,9 +1,9 @@
 let chai = require('chai');
 let assert = chai.assert;
-let request = require('../testFrameWork/requestSimulator.js');
-process.env.COMMENT_STORE = "../testFrameWork/testStore.json";
-let th = require('../testFrameWork/testHelper.js');
-let app = require('../lib/app.js');
+let request = require('./testFrameWork/requestSimulator.js');
+process.env.COMMENT_STORE = "./testFrameWork/testStore.json";
+let th = require('./testFrameWork/testHelper.js');
+let app = require('../app.js');
 
 describe('app',()=>{
   describe('GET /bad',()=>{
@@ -34,14 +34,14 @@ describe('app',()=>{
   describe('GET /css/master.css',()=>{
     it('serves the image',done=>{
       request(app,{method:'GET',url:'/css/master.css'},res=>{
-        th.should_be_redirected_to(res,'/login');
+        th.status_is_ok(res);
         done();
       })
     })
   })
-  describe('GET /public/todo.html',()=>{
+  describe('GET /todo.html',()=>{
     it('serves the javascript source',done=>{
-      request(app,{method:'GET',url:'/public/todoPage.html'},res=>{
+      request(app,{method:'GET',url:'/todo.html'},res=>{
         th.should_be_redirected_to(res,'/login');
         done();
       })
@@ -66,7 +66,6 @@ describe('app',()=>{
       })
     })
   })
-
   describe('POST /login',()=>{
     it('redirects to home for valid user',done=>{
       request(app,{method:'POST',url:'/login',body:'userName=bhanutv'},res=>{
@@ -83,8 +82,7 @@ describe('app',()=>{
       })
     })
   })
-
-  describe.skip('/createNewTodo',()=>{
+  describe('/createNewTodo',()=>{
     it('redirects to login page if user is bad user',done=>{
       request(app,{method:'GET',url:'/createNewTodo',body:'userName=badUser'},res=>{
         th.should_be_redirected_to(res,'/login');
@@ -92,12 +90,11 @@ describe('app',()=>{
         done();
       })
     })
-    let headers = {
-      cookie: 'sessionId=151826474749'
-    }
-    it('redirects to ./public/todoPage.html is user is valid user',done=>{
-      request(app,{ method:'GET', url: "/createNewTodo", headers: headers },(res)=>{
-        th.should_be_redirected_to(res,'./public/toDoPage.html');
+  })
+  describe.skip('/createNewTodo',()=>{
+    it('redirects to /todo.html is user is valid user',done=>{
+      request(app,{method:'GET',url: "/createNewTodo",user:'bhanutv'},res=>{
+        th.should_be_redirected_to(res,'/todo.html');
         done();
       })
     })

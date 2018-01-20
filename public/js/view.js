@@ -17,6 +17,6 @@ let deleteTodo=function(event){
   let xhr=new XMLHttpRequest
   let todoId=event.target.id.split('_')[1]
   xhr.addEventListener("load", reqListener)
-  xhr.open('POST','deleteTodo')
-  xhr.send(`todoId=${todoId}`)
+  xhr.open('GET','deleteTodo');
+  xhr.send(`todoId=${todoId}`);
 }

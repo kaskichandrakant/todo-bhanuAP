@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>add a new todo</title>
     <link rel="stylesheet" href="/css/master.css">
+    <script src="/js/addTodo.js" charset="utf-8"></script>
   </head>
   <body>
     <div class="middleColumn">
@@ -12,9 +13,12 @@
       <h2>Add a new todo:-</h2>
       <form action="/newTodo" method="post">
         <textarea type="text" name="title" rows="2" cols="100" placeholder="Add a title"></textarea>
-        <textarea type="text" name="description" rows="3.5" cols="100" placeholder="Add a description"></textarea>
-        <textarea type="text" name="todo" rows="30" cols="100" placeholder="Add todo"></textarea><br>
-        <button type="submit">Ready</button>
+        <textarea type="text" name="description" rows="3.5" cols="100" placeholder="Add a description"></textarea><br>
+        <!-- <textarea type="text" name="todo" rows="30" cols="100" placeholder="Add todo"></textarea><br> -->
+        <input name="todo" type="text" placeholder="Add todo"></input>
+        <button type="button" onclick="addItem()">+</button>
+        <p id=Items ></p>
+        <button type="submit">Ready</button><br>
       </form>
     </div>
   </body>
