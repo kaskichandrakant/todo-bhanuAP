@@ -45,7 +45,7 @@ let parseItems = (items) => {
 let respondToData = function(req, res) {
   res.setHeader('Content-Type', 'text/html');
   res.statusCode = 200;
-  let title = decodeString(req.body.title);
+  let title = req.body.title;
   let description = decodeString(req.body.description);
   let todoItems = req.body.todo;
   let itemsList = parseItems(req.body);
@@ -79,7 +79,7 @@ let getTitles = function(userName) {
     return ele.title
   });
   titles.forEach((title) => {
-    titleText += `<a id=${title} onclick=viewTodo(event) >${title}</a><button class="deleteButton" id=delete_${title} onclick=deleteTodo(event)>Delete</button><p id =${title}_items></p>`
+    titleText += `<a id=${title} onclick=viewTodo(event) >${decodeString(title)}</a><button class="deleteButton" id=delete_${title} onclick=deleteTodo(event)>Delete</button><p id =${title}_items></p>`
   })
   return titleText;
 }

@@ -1,5 +1,5 @@
 const HtmlConverter = function() {}
-
+const decodeString = require('../lib/utility.js').decodeString;
 
 HtmlConverter.prototype = {
   getHtmlFormat: function(data) {
@@ -7,7 +7,7 @@ HtmlConverter.prototype = {
     <body><div class="middleColumn">
     <a href="/home">Close This Todo</a>
       <h3> <i>title :</i> </h3>
-          <p class="data">${data.title}</p>
+          <p class="data">${decodeString(data.title)}</p>
       <h3> <i>description :</i></h3>
           <p class="data">${data.description}</p>
       <h3> <i>todo list :</i> </h3>
