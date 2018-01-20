@@ -1,7 +1,8 @@
-const HtmlConverter=function() {}
+const HtmlConverter = function() {}
+
 
 HtmlConverter.prototype = {
-  getHtmlFormat:function(data) {
+  getHtmlFormat: function(data) {
     return `<html><link rel="stylesheet" href="/css/master.css"></head>
     <body><div class="middleColumn">
     <a href="/home">Close This Todo</a>
@@ -10,8 +11,16 @@ HtmlConverter.prototype = {
       <h3> <i>description :</i></h3>
           <p class="data">${data.description}</p>
       <h3> <i>todo list :</i> </h3>
-          <p class="data">${data.todoList}</p>
+          <p class="data">${this.getTodoListItems(data.todoList)}</p>
     </div></body><html>`
+  },
+  getTodoListItems: function(data) {
+    let htmlData = '';
+    let dataList=JSON.parse(data);
+    dataList.forEach(ele => {
+      htmlData += ele.task+'<br>';
+    });
+    return htmlData;
   }
 }
 

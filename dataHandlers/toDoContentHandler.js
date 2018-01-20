@@ -20,8 +20,10 @@ TodoContentHandler.prototype = {
 
   handleData: function(user,todo) {
     let userFile = './data/' + user.userName + '.json';
+    let todoItems=JSON.stringify(todo.todoItems);
+    console.log(todoItems);
     if (fs.existsSync(userFile)) {
-      return this.storeData(userFile, todo.title, todo.description, todo.todoItems.join('<br>'));
+      return this.storeData(userFile, todo.title, todo.description, todoItems);
     }
     fs.writeFileSync('./data/' + user.userName + '.json', JSON.stringify([]));
     return this.handleData(user,todo);

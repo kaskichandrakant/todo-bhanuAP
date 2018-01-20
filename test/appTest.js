@@ -24,7 +24,7 @@ describe('app',()=>{
     })
   })
   describe('GET /home',()=>{
-    it('gives the index page',done=>{
+    it('gives the home page',done=>{
       request(app,{method:'GET',url:'/home'},res=>{
         th.should_be_redirected_to(res,'/login');
         done();
