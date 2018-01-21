@@ -17,7 +17,6 @@ TodoContentHandler.prototype = {
     fs.writeFileSync(userFile, JSON.stringify(userTodoList));
     return userTodoList;
   },
-
   handleData: function(user,todo) {
     let userFile = './data/' + user.userName + '.json';
     let todoItems=JSON.stringify(todo.todoItems);
@@ -26,14 +25,6 @@ TodoContentHandler.prototype = {
     }
     fs.writeFileSync('./data/' + user.userName + '.json', JSON.stringify([]));
     return this.handleData(user,todo);
-  },
-
-  getPrevioustodoItem: function(filePath) {
-    if (fs.existsSync(filePath)) {
-      let fileContent = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      return htmlConverter.getHtmlFormat(fileContent[fileContent.length - 1]);
-    }
-    return '';
   },
   getAllItems:function(userName) {
     let filePath= './data/'+userName+'.json';

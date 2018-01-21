@@ -42,10 +42,11 @@ input {
   margin-left: 300px;
 }
 
-.deleteButton{
+.deleteButton {
   float: left;
   margin-right: 20px;
-  font-size: 30px;
+  font-size: 25px;
+  margin-left: -10px;
 }
 
 button {

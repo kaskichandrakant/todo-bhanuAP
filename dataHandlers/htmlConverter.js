@@ -14,13 +14,22 @@ HtmlConverter.prototype = {
           ${this.getTodoListItems(data.title,data.todoList)}
     </div></body><html>`
   },
-  getTodoListItems: function(title,todoList) {
+   getTodoListItems: function(title,todoList) {
     let htmlData = '';
     let dataList=JSON.parse(todoList);
     dataList.forEach((element,index)=> {
-      htmlData += `<button class="deleteButton" id=delete_${title}_${element.task} onclick=deleteItem(event)>Delete</button>${decodeString(element.task)}</br>`;
+      htmlData += `<span ${this.getStyleAccordingToStatus(element.status)}><button class="deleteButton" id=doneItem_${title}_${element.task} onclick=doneItem(event)>Done</button>
+      <button class="deleteButton" id=undoneItem_${title}_${element.task} onclick=undoneItem(event)>Undone</button>
+      <button class="deleteButton" id=editItem_${title}_${element.task} onclick=editItem(event)>Edit</button>
+      <button class="deleteButton" id=delete_${title}_${element.task} onclick=deleteItem(event)>Delete</button> ${decodeString(element.task)}</span></br>`;
     });
     return htmlData;
+  },
+  getStyleAccordingToStatus:(status)=>{
+    if(status=='done'){
+      return 'style="color:green;"'
+    }
+    return '';
   }
 }
 

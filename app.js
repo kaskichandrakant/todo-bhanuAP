@@ -2,7 +2,7 @@ const fs = require('fs');
 const WebApp = require('./webapp');
 const TodoContentHandler = require('./dataHandlers/todoContentHandler');
 const qs = require('querystring');
-
+const ItemHandler = require('./handlers/item_handler.js');
 const utility = require('./lib/utility.js')
 const getContentType = utility.getContentType;
 const logRequest = utility.logRequest;
@@ -22,7 +22,7 @@ const decodeString = utility.decodeString;
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 
-todoContentHandler = new TodoContentHandler();
+let todoContentHandler = new TodoContentHandler();
 
 let loadUser = (req, res) => {
   let sessionid = req.cookies.sessionid;
@@ -54,13 +54,7 @@ let respondToData = function(req, res) {
   req.user.addTodo(title, description, itemsList);
   let todo = req.user.getTodo(title)
   todoContentHandler.handleData(req.user, todo);
-  res.redirect('/userTodo');
-}
-
-let writeTodo = (req, res) => {
-  let data = todoContentHandler.getPrevioustodoItem('./data/' + req.user.userName + '.json');
-  res.write(data);
-  res.end();
+  res.redirect('/home');
 }
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
@@ -133,10 +127,6 @@ let newTodoHandler = (req, res) => {
   respondToData(req, res);
 };
 
-let userTodoHandler = (req, res) => {
-  writeTodo(req, res);
-};
-
 let viewTodoHandler = (req, res) => {
   let todoData = todoContentHandler.getTodoItem(req.user.userName, req.body.todoId);
   res.write(todoData);
@@ -154,19 +144,31 @@ let deleteTodoHandler = (req, res) => {
 }
 
 let deleteTodoItemHandler=(req,res)=>{
-  let userName = req.user.userName;
-  let titleId = req.body.todoId;
-  let todoItemId = req.body.item;
-  let data = todoContentHandler.getAllItems(userName);
-  let todo=data.find(element=>element.title == titleId);
-  let todoList=JSON.parse(todo.todoList);
-  let todoItem=todoList.find(element=>element.task==todoItemId);
+  let itemHandler=new ItemHandler(new TodoContentHandler());
+  let todoList=itemHandler.getTodoList(req,res);
+  let todoItem=itemHandler.getTodoItem(todoList);
   todoList.splice(todoList.indexOf(todoItem),1);
-  todo.todoList = JSON.stringify(todoList);
-  todoContentHandler.removeDeletedTodoFromData(userName,data);
+  itemHandler.storeData(todoList);
   res.end();
 }
 
+let doneItemHandler=(req,res)=>{
+  let itemHandler=new ItemHandler(new TodoContentHandler());
+  let todoList=itemHandler.getTodoList(req,res);
+  let todoItem=itemHandler.getTodoItem(todoList);
+  todoItem.status='done';
+  itemHandler.storeData(todoList);
+  res.end();
+}
+
+let undoneItem=(req,res)=>{
+  let itemHandler=new ItemHandler(new TodoContentHandler());
+  let todoList=itemHandler.getTodoList(req,res);
+  let todoItem=itemHandler.getTodoItem(todoList);
+  todoItem.status='undone';
+  itemHandler.storeData(todoList);
+  res.end();
+}
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 
 let app = WebApp.create();
@@ -182,8 +184,9 @@ app.get('/home', getHome);
 app.post('/viewTodo', viewTodoHandler);
 app.post('/newTodo', newTodoHandler);
 app.post('/deleteTodo', deleteTodoHandler);
-app.get('/userTodo', userTodoHandler);
 app.get('/createNewTodo', createNewTodoHandler);
 app.post('/deleteItem',deleteTodoItemHandler);
+app.post('/doneItem',doneItemHandler);
+app.post('/undoneItem',undoneItem);
 
 module.exports = app;
