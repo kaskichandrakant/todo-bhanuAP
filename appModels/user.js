@@ -47,7 +47,6 @@ class User {
   }
   deleteTodoItem(req){
     let todoList=itemHandler.getTodoList(req);
-    console.log(todoList);
     let todoItem=itemHandler.getTodoItem(todoList);
     todoList.splice(todoList.indexOf(todoItem),1);
     this.changedTodoItem(req,todoList);

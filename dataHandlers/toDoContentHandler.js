@@ -19,11 +19,11 @@ TodoContentHandler.prototype = {
   },
   handleData: function(userName,todo) {
     let filePath = this.getFilePath(userName);
-    let todoItems=JSON.stringify(todo.todoItems);
+    let todoItems=todo.todoItems;
     if (fs.existsSync(filePath)) {
       return this.storeData(filePath, todo.title, todo.description, todoItems);
     }
-    fs.writeFileSync('./data/' + user.userName + '.json', JSON.stringify([]));
+    fs.writeFileSync('./data/' + userName + '.json', JSON.stringify([]));
     return this.handleData(userName,todo);
   },
   getAllItems:function(userName) {
@@ -43,7 +43,7 @@ TodoContentHandler.prototype = {
   },
   writeManipulatedData(userName,data){
     let filePath = this.getFilePath(userName);
-    let fileContent=JSON.stringify(data);
+    let fileContent= JSON.stringify(data);
     fs.writeFileSync(filePath,fileContent);
     return;
   },

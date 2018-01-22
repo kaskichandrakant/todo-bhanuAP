@@ -7,8 +7,12 @@ const getContentType = utility.getContentType;
 const logRequest = utility.logRequest;
 const TodoApp = require('./appModels/todoApp.js');
 const todoApp = new TodoApp();
+
 todoApp.addUser('bhanutv', 'Bhanu Teja Verma');
 todoApp.addUser('santosh', 'santosh Kaski');
+todoApp.addUser('sampleUser','Sample user');
+
+
 let registered_users = todoApp.getAllUsers();
 
 const toS = utility.toS;

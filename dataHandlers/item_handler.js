@@ -1,22 +1,22 @@
 class ItemHandler {
   constructor(todoContentHandler) {
-    this.todoContentHandler=todoContentHandler;
+    this.todoContentHandler = todoContentHandler;
   }
-  getTodoList(req){
+  getTodoList(req) {
     this.createInfo(req);
-    let todo=this.data.find(e=>e.title==this.titleId);
-    this.todo=todo;
+    let todo = this.data.find(e => e.title == this.titleId);
+    this.todo = todo;
     return todo.todoList;
   }
   getTodoItem(todoList) {
-    return todoList.find(element=>element.task==this.todoItemId);
+    return todoList.find(element => element.task == this.todoItemId);
   }
-  createInfo(req){
+  createInfo(req) {
     this.userName = req.user.userName;
     this.titleId = req.body.todoId;
-    this.todoItemId=req.body.item;
-    this.data=this.todoContentHandler.getAllItems(this.userName);
+    this.todoItemId = req.body.item;
+    this.data = this.todoContentHandler.getAllItems(this.userName);
   }
 }
 
-module.exports=ItemHandler;
+module.exports = ItemHandler;

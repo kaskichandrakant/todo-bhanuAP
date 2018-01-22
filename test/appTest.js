@@ -68,7 +68,7 @@ describe('app',()=>{
   })
   describe('POST /login',()=>{
     it('redirects to home for valid user',done=>{
-      request(app,{method:'POST',url:'/login',body:'userName=bhanutv'},res=>{
+      request(app,{method:'POST',url:'/login',body:'userName=sampleUser'},res=>{
         th.should_be_redirected_to(res,'/home');
         th.should_not_have_cookie(res,'message');
         done();
@@ -90,13 +90,50 @@ describe('app',()=>{
         done();
       })
     })
-  })
-  describe('/createNewTodo',()=>{
     it('redirects to /todo.html is user is valid user',()=>{
-      request(app,{method:'GET',url: "/createNewTodo",user:'bhanutv'},res=>{
+      request(app,{method:'GET',url: "/createNewTodo",user:'sampleUser'},res=>{
         th.should_be_redirected_to(res,'/todo.html');
       })
     })
   })
-
+  describe.skip('/newTodo',()=>{
+    it('it should delete todo of the specific user',done=>{
+      request(app,{method:'POST',url:'/newTodo',body:{todoId:'todo_todo1'},user:{userName:'sampleUser'}},res=>{
+        // th.should_be_redirected_to(res,'/login');
+        // th.body_does_not_contain(res,'logInFailed=true');
+        done();
+      })
+    })
+    // it('redirects to /todo.html is user is valid user',()=>{
+    //   request(app,{method:'POST',url: "/createNewTodo",user:'sampleUser'},res=>{
+    //     th.should_be_redirected_to(res,'/todo.html');
+    //   })
+    // })
+  })
+  describe.skip('/deleteTodo',()=>{
+    it('it should delete todo of the specific user',done=>{
+      request(app,{method:'POST',url:'/deleteTodo',body:{todoId:'some'},user:{userName:'sampleUser'}},res=>{
+        // th.should_be_redirected_to(res,'/login');
+        // th.body_does_not_contain(res,'logInFailed=true');
+        done();
+      })
+    })
+    it('redirects to /todo.html is user is valid user',()=>{
+      request(app,{method:'POST',url: "/createNewTodo",user:'sampleUser'},res=>{
+        th.should_be_redirected_to(res,'/todo.html');
+      })
+    })
+  })
 })
+
+// app.get('/createNewTodo', createNewTodoHandler);
+// app.get('/login', getLogin);
+// app.get('/logout', getLogout);
+// app.get('/home', getHome);
+// app.post('/login', postLogin);
+// app.post('/viewTodo', viewTodoHandler);
+// app.post('/newTodo', newTodoHandler);
+// app.post('/deleteTodo', deleteTodoHandler);
+// app.post('/deleteItem',deleteTodoItemHandler);
+// app.post('/doneItem',doneItemHandler);
+// app.post('/undoneItem',undoneItem);
