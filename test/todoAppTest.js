@@ -29,7 +29,6 @@ describe('/TodoApp',()=>{
     it('should get all users registered in the app',()=>{
       let todoApp=new TodoApp();
       todoApp.addUser('testUser1','test user1');
-      todoApp.getUser('')
       assert.equal(todoApp.getAllUsers()[0].userName,'testUser1');
       assert.equal(todoApp.getAllUsers()[0].name,'test user1');
     })

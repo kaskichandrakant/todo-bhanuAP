@@ -1,4 +1,4 @@
-let item=1;
+let item=0;
 let addItem=()=>{
   item++;
   let input=document.createElement('INPUT')

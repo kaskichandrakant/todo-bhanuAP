@@ -131,6 +131,7 @@ let newTodoHandler = (req, res) => {
 };
 
 let viewTodoHandler = (req, res) => {
+  console.log(req.body);
   let todoData = todoContentHandler.getTodoItem(req.user.userName, req.body.todoId);
   res.write(todoData);
   res.end();

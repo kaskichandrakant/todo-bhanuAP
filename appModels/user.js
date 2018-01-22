@@ -42,7 +42,7 @@ class User {
     let todo=data.find(e=>e.title==req.body.todoId);
     todo.todoList=todoList;
     let replacedData=data.find(element=>element.title==todo.title);
-    this.todos=[replacedData];
+    this.todos=data;
     return;
   }
   deleteTodoItem(req){

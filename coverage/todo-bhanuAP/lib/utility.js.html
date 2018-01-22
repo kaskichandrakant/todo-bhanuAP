@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for todo-bhanuAP/lib/utility.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">todo-bhanuAP/lib</a> utility.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84.85% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>28/33</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.82% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>9/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.66% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>26/29</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const timeStamp = require('../time.js').timeStamp;
+const fs=require('fs');
+let toS = o=&gt;JSON.stringify(o,null,2);
+let logRequest = (req,res)=&gt;{
+  let text = ['------------------------------',
+    `${timeStamp()}`,
+    `${req.method} ${req.url}`,
+    `HEADERS=&gt; ${toS(req.headers)}`,
+    `COOKIES=&gt; ${toS(req.cookies)}`,
+    `BODY=&gt; ${toS(req.body)}`,''].join('\n');
+  fs.appendFile('request.log',text,()=&gt;{});
+&nbsp;
+  console.log(`${req.method} ${req.url}`);
+}
+&nbsp;
+const getContentType = function(fileName) {
+  let extension = fileName.substr((fileName.lastIndexOf('.') + 1));
+  let contentTypes = {
+    'html': 'text/html',
+    'txt': 'text/plain',
+    'css': 'text/css',
+    'gif': 'image/gif',
+    'jpg': 'image/jpeg',
+    'png': 'image/png',
+    'ico': 'image/ico',
+    'svg': 'image/svg+xml',
+    'pdf': 'application/pdf',
+    'js': 'application/javascript'
+  }
+  return contentTypes[extension];
+}
+&nbsp;
+let redirectLoggedInUserToHome = (req, res) =&gt; {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (req.urlIsOneOf(['/', '/login']) &amp;&amp; req.user) <span class="cstat-no" title="statement not covered" >res.redirect('/home');</span>
+}
+&nbsp;
+let redirectLoggedOutUserToLogin = (req, res) =&gt; {
+  if (req.urlIsOneOf(['/', '/home', '/createNewTodo', '/userTodo', '/logout', '/deleteTodo', '/newTodo', '/viewTodo','/todo.html']) &amp;&amp; !req.user) res.redirect('/login');
+}
+&nbsp;
+const serveStaticFile = function(req, res) {
+  if (fs.existsSync('./public' + req.url)) {
+    res.setHeader('Content-type', getContentType(req.url));
+    res.statusCode = 200;
+    let fileContent = fs.readFileSync('./public' + req.url);
+    res.write(fileContent);
+    res.end();
+    return;
+<span class="cstat-no" title="statement not covered" >    res.redirect('/login');</span>
+  }
+};
+&nbsp;
+let decodeString=<span class="fstat-no" title="function not covered" >fu</span>nction(string){
+<span class="cstat-no" title="statement not covered" >  return unescape(string).split('+').join(' ');</span>
+}
+&nbsp;
+let findElement=<span class="fstat-no" title="function not covered" >fu</span>nction(data,id,option=<span class="branch-0 cbranch-no" title="branch not covered" >'title')</span>{
+<span class="cstat-no" title="statement not covered" >  return data.find(<span class="fstat-no" title="function not covered" >e=</span>&gt;<span class="cstat-no" title="statement not covered" >e.option==id)</span>;</span>
+}
+&nbsp;
+module.exports = {
+ toS : toS,
+ logRequest : logRequest,
+ getContentType : getContentType,
+ redirectLoggedInUserToHome : redirectLoggedInUserToHome,
+ redirectLoggedOutUserToLogin : redirectLoggedOutUserToLogin,
+ serveStaticFile : serveStaticFile,
+ decodeString:decodeString,
+ findElement:findElement
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jan 22 2018 17:53:49 GMT+0530 (IST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
