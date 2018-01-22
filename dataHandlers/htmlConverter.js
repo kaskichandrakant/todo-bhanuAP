@@ -16,8 +16,7 @@ HtmlConverter.prototype = {
   },
    getTodoListItems: function(title,todoList) {
     let htmlData = '';
-    let dataList=JSON.parse(todoList);
-    dataList.forEach((element,index)=> {
+    todoList.forEach((element,index)=> {
       htmlData += `<span ${this.getStyleAccordingToStatus(element.status)}><button class="deleteButton" id=doneItem_${title}_${element.task} onclick=doneItem(event)>Done</button>
       <button class="deleteButton" id=undoneItem_${title}_${element.task} onclick=undoneItem(event)>Undone</button>
       <button class="deleteButton" id=editItem_${title}_${element.task} onclick=editItem(event)>Edit</button>

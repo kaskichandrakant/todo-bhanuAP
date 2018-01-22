@@ -6,8 +6,8 @@ class TodoApp {
   addUser(userName,name){
     this.users.push(new User(userName,name));
   }
-  getUser(name){
-    this.users.find((u)=>u.name==name);
+  getUser(userName){
+    return this.users.find((u)=>u.userName==userName);
   }
   getAllUsers(){
     return this.users;

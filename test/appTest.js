@@ -91,11 +91,10 @@ describe('app',()=>{
       })
     })
   })
-  describe.skip('/createNewTodo',()=>{
-    it('redirects to /todo.html is user is valid user',done=>{
+  describe('/createNewTodo',()=>{
+    it('redirects to /todo.html is user is valid user',()=>{
       request(app,{method:'GET',url: "/createNewTodo",user:'bhanutv'},res=>{
         th.should_be_redirected_to(res,'/todo.html');
-        done();
       })
     })
   })

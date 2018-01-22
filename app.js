@@ -2,7 +2,6 @@ const fs = require('fs');
 const WebApp = require('./webapp');
 const TodoContentHandler = require('./dataHandlers/todoContentHandler');
 const qs = require('querystring');
-const ItemHandler = require('./handlers/item_handler.js');
 const utility = require('./lib/utility.js')
 const getContentType = utility.getContentType;
 const logRequest = utility.logRequest;
@@ -53,7 +52,7 @@ let respondToData = function(req, res) {
   let itemsList = parseItems(req.body);
   req.user.addTodo(title, description, itemsList);
   let todo = req.user.getTodo(title)
-  todoContentHandler.handleData(req.user, todo);
+  todoApp.getUser(req.user.userName).storeData(req.user,todo);
   res.redirect('/home');
 }
 
@@ -134,39 +133,22 @@ let viewTodoHandler = (req, res) => {
 };
 
 let deleteTodoHandler = (req, res) => {
-  let userName = req.user.userName;
-  let id = req.body.todoId;
-  let data = todoContentHandler.getAllItems(userName);
-  let todo = data.find(e => e.title == id);
-  data.splice(data.indexOf(todo), 1);
-  todoContentHandler.removeDeletedTodoFromData(userName, data);
+  todoApp.getUser(req.user.userName).removeTodo(req);
   res.end();
 }
 
 let deleteTodoItemHandler=(req,res)=>{
-  let itemHandler=new ItemHandler(new TodoContentHandler());
-  let todoList=itemHandler.getTodoList(req,res);
-  let todoItem=itemHandler.getTodoItem(todoList);
-  todoList.splice(todoList.indexOf(todoItem),1);
-  itemHandler.storeData(todoList);
+  todoApp.getUser(req.user.userName).deleteTodoItem(req);
   res.end();
 }
 
 let doneItemHandler=(req,res)=>{
-  let itemHandler=new ItemHandler(new TodoContentHandler());
-  let todoList=itemHandler.getTodoList(req,res);
-  let todoItem=itemHandler.getTodoItem(todoList);
-  todoItem.status='done';
-  itemHandler.storeData(todoList);
+  todoApp.getUser(req.user.userName).doneItem(req);
   res.end();
 }
 
 let undoneItem=(req,res)=>{
-  let itemHandler=new ItemHandler(new TodoContentHandler());
-  let todoList=itemHandler.getTodoList(req,res);
-  let todoItem=itemHandler.getTodoItem(todoList);
-  todoItem.status='undone';
-  itemHandler.storeData(todoList);
+  todoApp.getUser(req.user.userName).undoneItem(req);
   res.end();
 }
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
@@ -177,14 +159,14 @@ app.preProcess(loadUser);
 app.preProcess(redirectLoggedInUserToHome);
 app.preProcess(redirectLoggedOutUserToLogin);
 app.preProcess(serveStaticFile);
-app.post('/login', postLogin);
+app.get('/createNewTodo', createNewTodoHandler);
 app.get('/login', getLogin);
 app.get('/logout', getLogout);
 app.get('/home', getHome);
+app.post('/login', postLogin);
 app.post('/viewTodo', viewTodoHandler);
 app.post('/newTodo', newTodoHandler);
 app.post('/deleteTodo', deleteTodoHandler);
-app.get('/createNewTodo', createNewTodoHandler);
 app.post('/deleteItem',deleteTodoItemHandler);
 app.post('/doneItem',doneItemHandler);
 app.post('/undoneItem',undoneItem);

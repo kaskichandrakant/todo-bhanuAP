@@ -17,35 +17,38 @@ TodoContentHandler.prototype = {
     fs.writeFileSync(userFile, JSON.stringify(userTodoList));
     return userTodoList;
   },
-  handleData: function(user,todo) {
-    let userFile = './data/' + user.userName + '.json';
+  handleData: function(userName,todo) {
+    let filePath = this.getFilePath(userName);
     let todoItems=JSON.stringify(todo.todoItems);
-    if (fs.existsSync(userFile)) {
-      return this.storeData(userFile, todo.title, todo.description, todoItems);
+    if (fs.existsSync(filePath)) {
+      return this.storeData(filePath, todo.title, todo.description, todoItems);
     }
     fs.writeFileSync('./data/' + user.userName + '.json', JSON.stringify([]));
-    return this.handleData(user,todo);
+    return this.handleData(userName,todo);
   },
   getAllItems:function(userName) {
-    let filePath= './data/'+userName+'.json';
+    let filePath = this.getFilePath(userName);
     if(fs.existsSync(filePath)) {
       return JSON.parse(fs.readFileSync(filePath,'utf8'));
     }
     return [];
   },
   getTodoItem:function(userName,title){
-    let filePath = './data/'+userName+'.json';
+    let filePath = this.getFilePath(userName);
     let fileContent=JSON.parse(fs.readFileSync(filePath,'utf8'));
     let todo=fileContent.find(element=>{
       return element.title==title;
     })
     return htmlConverter.getHtmlFormat(todo);
   },
-  removeDeletedTodoFromData:function(userName,data){
-    let filePath = './data/'+userName+'.json';
+  writeManipulatedData(userName,data){
+    let filePath = this.getFilePath(userName);
     let fileContent=JSON.stringify(data);
     fs.writeFileSync(filePath,fileContent);
     return;
+  },
+  getFilePath(userName){
+    return './data/'+userName+'.json';
   }
 }
 
