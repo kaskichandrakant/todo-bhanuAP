@@ -1,4 +1,13 @@
 let EventEmitter = require('events');
+
+let createGetOptions = (url,headers={},body="") => {
+  return {method:"GET",url,body,headers}
+}
+
+let createPostOptions = (url,headers={},body="") => {
+  return {method:"POST",url,body,headers}
+}
+
 let request = function(app,options,onComplete){
   let res_headers = {};
   let res_contents = "";
@@ -25,4 +34,4 @@ let request = function(app,options,onComplete){
   options.body && req.emit('data',options.body);
   req.emit('end');
 }
-module.exports = request;
+module.exports = {request,createGetOptions,createPostOptions}

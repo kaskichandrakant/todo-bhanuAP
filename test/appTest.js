@@ -1,6 +1,10 @@
 let chai = require('chai');
 let assert = chai.assert;
-let request = require('./testFrameWork/requestSimulator.js');
+let requestSimulator = require('./testFrameWork/requestSimulator.js');
+let request = requestSimulator.request;
+let createGetOptions = requestSimulator.createGetOptions;
+let createPostOptions = requestSimulator.createPostOptions;
+
 process.env.COMMENT_STORE = "./testFrameWork/testStore.json";
 let th = require('./testFrameWork/testHelper.js');
 let app = require('../app.js');
@@ -8,10 +12,8 @@ let app = require('../app.js');
 describe('app', () => {
   describe('GET /bad', () => {
     it('responds with 404', done => {
-      request(app, {
-        method: 'GET',
-        url: '/bad'
-      }, (res) => {
+      let options=createGetOptions("/bad");
+      request(app, options, (res) => {
         assert.equal(res.statusCode, 404);
         done();
       })
@@ -19,10 +21,8 @@ describe('app', () => {
   })
   describe('GET /', () => {
     it('redirects to home', done => {
-      request(app, {
-        method: 'GET',
-        url: '/'
-      }, (res) => {
+      let options=createGetOptions("/");
+      request(app, options, (res) => {
         th.should_be_redirected_to(res, '/login');
         assert.equal(res.body, "");
         done();
@@ -31,43 +31,35 @@ describe('app', () => {
   })
   describe('GET /home', () => {
     it('gives the home page', done => {
-      request(app, {
-        method: 'GET',
-        url: '/home'
-      }, res => {
+      let options=createGetOptions("/home");
+      request(app, options, res => {
         th.should_be_redirected_to(res, '/login');
         done();
       })
     })
   })
   describe('GET /css/master.css', () => {
+    let options=createGetOptions("/css/master.css");
     it('serves the image', done => {
-      request(app, {
-        method: 'GET',
-        url: '/css/master.css'
-      }, res => {
+      request(app, options, res => {
         th.status_is_ok(res);
         done();
       })
     })
   })
   describe('GET /todo.html', () => {
+    let options=createGetOptions("/todo.html");
     it('serves the javascript source', done => {
-      request(app, {
-        method: 'GET',
-        url: '/todo.html'
-      }, res => {
+      request(app, options, res => {
         th.should_be_redirected_to(res, '/login');
         done();
       })
     })
   })
   describe('GET /login', () => {
+    let options=createGetOptions("/login");
     it('serves the login page', done => {
-      request(app, {
-        method: 'GET',
-        url: '/login'
-      }, res => {
+      request(app, options, res => {
         th.status_is_ok(res);
         th.body_contains(res, 'submit');
         th.body_does_not_contain(res, 'login failed');
@@ -76,13 +68,9 @@ describe('app', () => {
       })
     })
     it('serves the login page with message for a failed login', done => {
-      request(app, {
-        method: 'GET',
-        url: '/login',
-        headers: {
-          'cookie': 'message=login failed'
-        }
-      }, res => {
+      let headers={"cookie":"message=login failed"}
+      let options=createGetOptions("/login",headers);
+      request(app, options, res => {
         th.status_is_ok(res);
         th.body_contains(res, 'submit');
         th.should_not_have_cookie(res, 'message');
@@ -92,41 +80,36 @@ describe('app', () => {
   })
   describe('POST /login', () => {
     it('redirects to home for valid user', done => {
-      request(app, {
-        method: 'POST',
-        url: '/login',
-        body: 'userName=sampleUser'
-      }, res => {
+      let body="userName=sampleUser";
+      let options=createPostOptions("/login",{},body);
+      request(app, options, res => {
         th.should_be_redirected_to(res, '/home');
         th.should_not_have_cookie(res, 'message');
         done();
       })
     })
     it('redirects to login with message for invalid user', done => {
-      request(app, {
-        method: 'POST',
-        url: '/login',
-        body: 'userName=badUser'
-      }, res => {
+      let body='userName=badUser';
+      let options=createPostOptions('/login',body);
+      request(app, options, res => {
         th.should_be_redirected_to(res, '/login');
         th.body_does_not_contain(res, 'logInFailed=true');
         done();
       })
     })
   })
-  describe('/createNewTodo', () => {
+  describe.skip('/createNewTodo', () => {
     it('redirects to login page if user is bad user', done => {
-      request(app, {
-        method: 'GET',
-        url: '/createNewTodo',
-        body: 'userName=badUser'
-      }, res => {
+      let body='userName=badUser';
+      let options=createGetOptions('/createNewTodo',body);
+      request(app, options, res => {
         th.should_be_redirected_to(res, '/login');
         th.body_does_not_contain(res, 'logInFailed=true');
         done();
       })
     })
     it('redirects to /todo.html is user is valid user', () => {
+      let options=createGetRequest('/createNewTodo');
       request(app, {
         method: 'GET',
         url: "/createNewTodo",

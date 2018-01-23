@@ -1,0 +1,16 @@
+Write app level tests for the following routes
+  '/createNewTodo'
+    Use cookies for session instead of req.user
+  /addTodoItem
+  /viewTodo
+  /newTodo',
+  /deleteTodo
+  /deleteItem
+  /doneItem
+  /undoneItem
+
+Restructure directories
+  /src
+   /util
+
+Remove req references from User. Make User a pure model
