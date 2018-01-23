@@ -44,6 +44,7 @@ TodoContentHandler.prototype = {
   writeManipulatedData(userName,data){
     let filePath = this.getFilePath(userName);
     let fileContent= JSON.stringify(data);
+    console.log(fileContent);
     fs.writeFileSync(filePath,fileContent);
     return;
   },

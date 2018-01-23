@@ -21,9 +21,8 @@ class User {
       return element.title;
     })
   }
-  removeTodo(req,res){
-    let userName = req.user.userName;
-    let id = req.body.todoId;
+  removeTodo(userName,body){
+    let id = body.todoId;
     let data = todoContentHandler.getAllItems(userName);
     let todo = data.find(e => e.title == id);
     data.splice(data.indexOf(todo), 1);
@@ -37,36 +36,42 @@ class User {
   storeData(user, todo) {
     todoContentHandler.handleData(user.userName, todo);
   }
-  changedTodoItem(req,todoList){
-    let data=todoContentHandler.getAllItems(req.user.userName);
-    let todo=data.find(e=>e.title==req.body.todoId);
+  changedTodoItem(userName,body,todoList){
+    let data=todoContentHandler.getAllItems(userName);
+    let todo=data.find(e=>e.title==body.todoId);
     todo.todoList=todoList;
     let replacedData=data.find(element=>element.title==todo.title);
     this.todos=data;
     return;
   }
-  deleteTodoItem(req){
-    let todoList=itemHandler.getTodoList(req);
+  deleteTodoItem(userName,body){
+    let todoList=itemHandler.getTodoList(userName,body);
     let todoItem=itemHandler.getTodoItem(todoList);
     todoList.splice(todoList.indexOf(todoItem),1);
-    this.changedTodoItem(req,todoList);
+    this.changedTodoItem(userName,body,todoList);
     todoContentHandler.writeManipulatedData(this.userName,this.todos);
     return;
   }
-  doneItem(req){
-    let todoList=itemHandler.getTodoList(req);
+  doneItem(userName,body){
+    let todoList=itemHandler.getTodoList(userName,body);
     let todoItem=itemHandler.getTodoItem(todoList);
     todoItem.status='done';
-    this.changedTodoItem(req,todoList);
+    this.changedTodoItem(userName,body,todoList);
     todoContentHandler.writeManipulatedData(this.userName,this.todos);
     return;
   }
-  undoneItem(req){
-    let todoList=itemHandler.getTodoList(req);
+  undoneItem(userName,body){
+    let todoList=itemHandler.getTodoList(userName,body);
     let todoItem=itemHandler.getTodoItem(todoList);
     todoItem.status='undone';
-    this.changedTodoItem(req,todoList);
+    this.changedTodoItem(userName,body,todoList);
     todoContentHandler.writeManipulatedData(this.userName,this.todos);
+    return;
+  }
+  addTodoItem(req){
+    let title=req.body.title;
+    let todo=this.todos.find(element=>{return element.title==title});
+    //here
     return;
   }
 }

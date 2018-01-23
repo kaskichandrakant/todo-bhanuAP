@@ -131,30 +131,34 @@ let newTodoHandler = (req, res) => {
 };
 
 let viewTodoHandler = (req, res) => {
-  console.log(req.body);
   let todoData = todoContentHandler.getTodoItem(req.user.userName, req.body.todoId);
   res.write(todoData);
   res.end();
 };
 
 let deleteTodoHandler = (req, res) => {
-  todoApp.getUser(req.user.userName).removeTodo(req);
+  todoApp.getUser(req.user.userName).removeTodo(req.user.userName,req.body);
   res.end();
 }
 
 let deleteTodoItemHandler=(req,res)=>{
-  todoApp.getUser(req.user.userName).deleteTodoItem(req);
+  todoApp.getUser(req.user.userName).deleteTodoItem(req.user.userName,req.body);
   res.end();
 }
 
 let doneItemHandler=(req,res)=>{
-  todoApp.getUser(req.user.userName).doneItem(req);
+  todoApp.getUser(req.user.userName).doneItem(req.user.userName,req.body);
   res.end();
 }
 
 let undoneItem=(req,res)=>{
-  todoApp.getUser(req.user.userName).undoneItem(req);
+  todoApp.getUser(req.user.userName).undoneItem(req.user.userName,req.body);
   res.end();
+}
+
+let addTodoItem=(req,res)=>{
+  todoApp.getUser(req.body.userName).addTodoItem(req.user.userName,req.body);
+  res.redirect('/home');
 }
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 
@@ -175,5 +179,6 @@ app.post('/deleteTodo', deleteTodoHandler);
 app.post('/deleteItem',deleteTodoItemHandler);
 app.post('/doneItem',doneItemHandler);
 app.post('/undoneItem',undoneItem);
+app.post('/addTodoItem',addTodoItem);
 
 module.exports = app;

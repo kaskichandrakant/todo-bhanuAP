@@ -1,5 +1,6 @@
 let viewTodo = function(event) {
   let reqListener = function() {
+    console.log(this.responseText);
     document.getElementById(event.target.id + '_items').innerHTML = this.responseText;
   }
 
@@ -58,3 +59,14 @@ let undoneItem = function(event) {
   xhr.open('POST', 'undoneItem');
   xhr.send(`todoId=${title}&item=${todoItem}`);
 }
+
+// let addItem=function(userName,title){
+//   let reqListener = function() {
+//     window.location.reload();
+//   }
+//
+//   let xhr = new XMLHttpRequest
+//   xhr.addEventListener('load', reqListener);
+//   xhr.open('POST', 'addTodoItem');
+//   xhr.send(`userName=${userName}&title=${title}`);
+// }
