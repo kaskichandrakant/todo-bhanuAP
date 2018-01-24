@@ -1,3 +1,4 @@
+Rename TodoApp to UserSessionManager
 Write app level tests for the following routes
   '/createNewTodo'
     Use cookies for session instead of req.user

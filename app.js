@@ -13,7 +13,6 @@ todoApp.addUser('santosh', 'santosh Kaski');
 todoApp.addUser('sampleUser','Sample user');
 
 
-let registered_users = todoApp.getAllUsers();
 
 const toS = utility.toS;
 const redirectLoggedInUserToHome = utility.redirectLoggedInUserToHome;
@@ -25,11 +24,11 @@ const decodeString = utility.decodeString;
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 
-let todoContentHandler = new TodoContentHandler();
+let todoContentHandler = new TodoContentHandler(fs);
 
 let loadUser = (req, res) => {
   let sessionid = req.cookies.sessionid;
-  let user = registered_users.find(u => u.sessionid == sessionid);
+  let user = app.registered_users.find(u => u.sessionid == sessionid);
   if (sessionid && user) {
     req.user = user;
   }
@@ -54,9 +53,9 @@ let respondToData = function(req, res) {
   let description = decodeString(req.body.description);
   let todoItems = req.body.todo;
   let itemsList = parseItems(req.body);
-  req.user.addTodo(title, description, itemsList);
-  let todo = req.user.getTodo(title)
-  todoApp.getUser(req.user.userName).storeData(req.user,todo);
+  app.todoApp.getUser(req.user.userName).addTodo(title, description, itemsList);
+  let todo = app.todoApp.getUser(req.user.userName).getTodo(title);
+  app.todoApp.getUser(app.todoApp.getUser(req.user.userName).userName).storeData(req.user,todo);
   res.redirect('/home');
 }
 
@@ -94,7 +93,7 @@ let getLogin = (req, res) => {
 };
 
 let postLogin = (req, res) => {
-  let user = registered_users.find(u => u.userName == req.body.userName);
+  let user = app.registered_users.find(u => u.userName == req.body.userName);
   if (!user) {
     res.setHeader('Set-Cookie', `logInFailed=true`);
     res.redirect('/login');
@@ -137,32 +136,35 @@ let viewTodoHandler = (req, res) => {
 };
 
 let deleteTodoHandler = (req, res) => {
-  todoApp.getUser(req.user.userName).removeTodo(req.user.userName,req.body);
+  app.todoApp.getUser(req.user.userName).removeTodo(req.user.userName,req.body);
   res.end();
 }
 
 let deleteTodoItemHandler=(req,res)=>{
-  todoApp.getUser(req.user.userName).deleteTodoItem(req.user.userName,req.body);
+  app.todoApp.getUser(req.user.userName).deleteTodoItem(req.user.userName,req.body);
   res.end();
 }
 
 let doneItemHandler=(req,res)=>{
-  todoApp.getUser(req.user.userName).doneItem(req.user.userName,req.body);
+  app.todoApp.getUser(req.user.userName).doneItem(req.user.userName,req.body);
   res.end();
 }
 
 let undoneItem=(req,res)=>{
-  todoApp.getUser(req.user.userName).undoneItem(req.user.userName,req.body);
+  app.todoApp.getUser(req.user.userName).undoneItem(req.user.userName,req.body);
   res.end();
 }
 
 let addTodoItem=(req,res)=>{
-  todoApp.getUser(req.body.userName).addTodoItem(req.user.userName,req.body);
+  app.todoApp.getUser(req.body.userName).addTodoItem(req.user.userName,req.body);
   res.redirect('/home');
 }
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 
 let app = WebApp.create();
+app.todoApp=todoApp;
+app.registered_users=todoApp.getAllUsers();
+
 app.preProcess(logRequest);
 app.preProcess(loadUser);
 app.preProcess(redirectLoggedInUserToHome);

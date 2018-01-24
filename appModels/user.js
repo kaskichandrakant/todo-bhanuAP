@@ -1,8 +1,9 @@
 const Todo = require('./todo.js');
 const TodoContentHandler=require('../dataHandlers/todoContentHandler.js');
-let todoContentHandler=new TodoContentHandler();
+const fs = require('fs');
+let todoContentHandler=new TodoContentHandler(fs);
 const ItemHandler = require('../dataHandlers/item_handler.js');
-let itemHandler=new ItemHandler(new TodoContentHandler());
+let itemHandler=new ItemHandler(new TodoContentHandler(fs));
 
 class User {
   constructor(userName, name) {
@@ -32,6 +33,7 @@ class User {
   }
   changeUserData(data){
     this.todos=data;
+    console.log(`this is user data ${JSON.stringify(this.todos)}`);
   }
   storeData(user, todo) {
     todoContentHandler.handleData(user.userName, todo);
