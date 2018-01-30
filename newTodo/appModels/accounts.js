@@ -9,6 +9,9 @@ class Accounts {
   getAccount(userName){
     return this.allAccounts[userName];
   }
+  getAllAccounts(){
+    return this.allAccounts;
+  }
 }
 
 module.exports=Accounts;
