@@ -1,14 +1,10 @@
 class Item {
-  constructor(id,task) {
-    this.id=id;
+  constructor(task) {
     this.task=task;
     this.status=false;
   }
   getTask(){
     return this.task;
-  }
-  getId(){
-    return this.id;
   }
   getStatus(){
     return this.status;

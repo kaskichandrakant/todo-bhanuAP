@@ -1,52 +1,39 @@
+const User = require('../appModels/user.js');
 const chai = require('chai');
 const assert = chai.assert;
-const User=require('../appModels/user.js');
 
-describe('#User',()=>{
-  describe('/addTodo',()=>{
-    it('should add todo to user todos',()=>{
-      let user = new User('testUser','test user');
-      user.addTodo('title','description',['items']);
-      assert.equal(user.todos[0].title,'title');
-      assert.equal(user.todos[0].description,'description');
+describe("#user",()=>{
+  describe("#addTodo",()=>{
+    it("should add new todo of the user",()=>{
+      let user=new User("someone");
+      let title="title";
+      let description="description";
+      user.addTodo(title,description);
+      assert.equal(user.getTodo(1).title,title);
+      assert.equal(user.getTodo(1).description,description);
+    })
+    it("should add number of todos",()=>{
+      let user=new User("someone");
+      user.addTodo("title1","description1");
+      user.addTodo("title2","description2");
+      assert.hasAllKeys(user.todos,[1,2]);
     })
   })
-  describe('/getTodo',()=>{
-    it('should get the todo with respective title',()=>{
-      let user1 = new User('testUser1','test user1');
-      let user2 = new User('testUser2','test user2');
-      user1.addTodo('title','description',['items']);
-      let expected ={
-      title: 'title',
-      description: 'description',
-      todoItems: [ 'items' ] }
-      assert.equal(user1.getTodo('title').title,expected.title);
+  describe("#getTodo",()=>{
+    it("should get the id relative to given todo id",()=>{
+      let user=new User("someone");
+      user.addTodo("title1","description1");
+      user.addTodo("title2","description2");
+      assert.equal(user.getTodo(1).title,"title1");
     })
   })
-  describe('/getTitles',()=>{
-    it('should get the todo with respective title',()=>{
-      let user1 = new User('testUser1','test user1');
-      user1.addTodo('title1','description1',['items']);
-      user1.addTodo('title2','description2',['items']);
-      assert.deepEqual(user1.getTitles(),['title1','title2']);
-    })
-  })
-  describe('/changeUserData',()=>{
-    it('should replace user todoData with given data',()=>{
-      let user = new User('testUser1','test user');
-      user.addTodo('title1','description1',['items']);
-      let data={title:'changedTitle',description:'changedDescription',todoItems:['changedItems']};
-      user.changeUserData(data);
-      assert.deepEqual(user.todos,data);
-    })
-  })
-  describe('/deleteTodoItem',()=>{
-    it('should delete todo item from the specific todo',()=>{
-      let user = new User('testUser1','test user');
-      user.addTodo('title1','description1',['items']);
-      let data={title:'changedTitle',description:'changedDescription',todoItems:['changedItems']};
-      user.changeUserData(data);
-      assert.deepEqual(user.todos,data);
+  describe("#deleteTodo",()=>{
+    it("should delete the todo corresponding to given id",()=>{
+      let user=new User("someone");
+      user.addTodo("title1","description1");
+      user.addTodo("title2","description2");
+      user.deleteTodo(1);
+      assert.doesNotHaveAnyKeys(user.todos,[1]);
     })
   })
 })

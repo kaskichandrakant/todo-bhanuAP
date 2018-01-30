@@ -1,54 +1,5 @@
 .middleColumn {
-  width: 850px;
-  margin-left: 200px;
-  font-family: sans-serif;
-  font-size: 30px;
-}
-
-#logoutOption {
-  font-size: 30px;
-  margin-left: 780px;
-  margin-top: -30px;
-}
-
-#todoHeader {
-  margin-top: 30px;
-  margin-left: 15px;
-}
-
-#todoLists {
-  margin-top: 30px;
-  margin-left: 15px;
-  margin-top: -5px;
-}
-
-#createNewTodoOPtion {
-  margin-top: 30px;
-  margin-left: 15px;
-  margin-top: -10px;
-  font-size: 30px;
-}
-
-input {
-  width: 645px;
-  height: 40px;
-}
-
-.data {
-  margin-left: 50px;
-}
-
-#deleteTodo{
-  margin-left: 300px;
-}
-
-.deleteButton {
-  float: left;
-  margin-right: 20px;
-  font-size: 25px;
-  margin-left: -10px;
-}
-
-button {
-  font-size: 30px;
-}
+  width:800px;
+  margin-left:250px;
+  font-size:30px;
+};

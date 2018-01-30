@@ -1,7 +1,8 @@
 const http = require('http');
 const app = require('./app.js');
+let PORT=8000;
 
-const PORT = 8000;
-let server = http.createServer(app);
-server.on('error',e=>console.error('**error**',e.message));
-server.listen(PORT,(e)=>console.log(`server listening at ${PORT}`));
+let server=http.createServer(app);
+server.listen(PORT,()=>{
+  console.log(`listening at ${PORT}`);
+})

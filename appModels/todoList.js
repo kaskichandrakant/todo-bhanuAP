@@ -1,12 +1,11 @@
 const Item = require('./item.js');
 
 class TodoList {
-  constructor(id,title,description) {
-    this.id=id;
+  constructor(title,description) {
     this.title=title;
     this.description=description;
     this.itemId=1;
-    this.items=[];
+    this.items={};
   }
   getId(){
     return this.id;
@@ -18,23 +17,23 @@ class TodoList {
     return this.description;
   }
   addTask(item){
-    this.items.push(new Item(this.itemId,item));
+    this.items[this.itemId]=new Item(item);
     this.itemId++;
   }
   getTask(itemId){
-    return this.items.find((ele)=>{
-      return ele.id==itemId
-    });
+    return this.items[itemId];
   }
   deleteTask(itemId){
-    let item=this.getTask(itemId);
-    this.items.splice(this.items.indexOf(item),1);
+    delete this.items[itemId];
   }
   changeTitle(newTitle){
     this.title=newTitle;
   }
   changeDescription(newDescription){
     this.description=newDescription;
+  }
+  getItems(){
+    return this.items;
   }
 }
 
