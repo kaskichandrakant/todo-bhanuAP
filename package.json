@@ -1,0 +1,30 @@
+{
+  "name": "todo-kaskichandrakant",
+  "version": "1.0.0",
+  "description": "## Objective",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "supertest": "^3.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaskichandrakant/todo-kaskichandrakant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaskichandrakant/todo-kaskichandrakant/issues"
+  },
+  "homepage": "https://github.com/kaskichandrakant/todo-kaskichandrakant#readme"
+}

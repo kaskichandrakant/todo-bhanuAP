@@ -1,13 +1,13 @@
 const User = require('./user.js');
 class Accounts {
   constructor() {
-    this.allAccounts={};
+    this.allAccounts=[];
   }
   addAccount(userName){
-    this.allAccounts[userName]=new User(userName);
+    this.allAccounts.push(new User(userName));
   }
   getAccount(userName){
-    return this.allAccounts[userName];
+    return this.allAccounts.find(u=>u.userName==userName);
   }
   getAllAccounts(){
     return this.allAccounts;

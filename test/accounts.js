@@ -8,7 +8,7 @@ describe("#accounts", () => {
       let accounts = new Accounts();
       let user = "testUser";
       accounts.addAccount(user);
-      assert.equal(accounts.allAccounts[user].userName, user);
+      assert.equal(accounts.getAccount(user).userName, user);
     })
   })
   describe("#getAccount", () => {
