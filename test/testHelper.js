@@ -26,4 +26,9 @@ th.should_have_expiring_cookie = (res,name,value)=> {
   let cookieText = res.headers['Set-Cookie'];
   assert.include(cookieText,`${name}=${value}; Max-Age=5`);
 };
+th.doesNotHaveCookies = (res)=>{
+  const keys = Object.keys(res.headers);
+  let key = keys.find(k=>k.match(/set-cookie/i));
+  if(key) throw new Error(`Didnot expect Set-Cookie in header of ${keys}`);
+}
 module.exports = th;

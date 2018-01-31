@@ -2,6 +2,7 @@ const chai = require('chai');
 const assert = chai.assert;
 const request = require('supertest');
 const app = require('../app.js');
+const th = require('./testHelper');
 
 describe('APP', () => {
   describe('get /bad', () => {
@@ -27,6 +28,37 @@ describe('APP', () => {
         .get('/')
         .expect(302)
         .expect('Location','/login')
+        .end(done);
+    })
+  })
+  describe('post /login', () => {
+    it('redirects to login page when login credentials are invalid', (done) => {
+      app.registered_users=[{userName:'sample'}]
+      request(app)
+        .post('/login')
+        .send('userName=bad')
+        .expect(302)
+        .expect('Location','/login')
+        .end(done);
+    })
+    it('redirects to home page when login credentials are valid', (done) => {
+      app.registered_users=[{userName:'sample'}]
+      request(app)
+        .post('/login')
+        .send('userName=sample')
+        .expect(302)
+        .expect('Location','/home')
+        .end(done);
+    })
+  })
+  describe('get /login', () => {
+    it('shows login failed message for invalid credentials', (done) => {
+      request(app)
+        .get('/login')
+        .set('Cookie','logInFailed=true')
+        .expect(/Login Failed/)
+        .expect(200)
+        .expect(th.doesNotHaveCookies)
         .end(done);
     })
   })
