@@ -7,9 +7,6 @@ class TodoList {
     this.itemId=1;
     this.items={};
   }
-  getId(){
-    return this.id;
-  }
   getTitle(){
     return this.title;
   }

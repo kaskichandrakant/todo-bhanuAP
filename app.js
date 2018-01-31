@@ -6,7 +6,7 @@ const fs = require('fs');
 let app = express();
 todoApp.addAccount('santosh');
 todoApp.addAccount('viraj');
-app.registered_users=todoApp.getAllAccounts();
+app.registered_users = todoApp.getAllAccounts();
 
 
 //---------------------------------------------
@@ -32,11 +32,14 @@ let loadUser = (req, res, next) => {
   next();
 }
 
-const getLoginPage = (req, res, next) => {
+const getLoginPage = (req, res) => {
+  if(req.user){
+    res.redirect('/home');
+    return;
+  }
   let fileContent = getFileContent('login.html');
   if (req.cookies.logInFailed) fileContent = fileContent.replace('Here', 'Failed');
   res.send(fileContent);
-  next();
 }
 
 let setForLogin = (user, res) => {
@@ -52,14 +55,26 @@ let setForFailedLogin = (res) => {
   return;
 }
 
-let getHome = (req, res, next) => {
+let postLogin = (req, res, next) => {
   let user = app.registered_users.find(u => u.userName == req.body.userName);
   if (user) {
     setForLogin(user, res);
   } else setForFailedLogin(res);
 }
 
-let redirectToLogin = (req, res) => res.redirect('/login');
+let getHome = (req,res) => {
+  if(!req.user) {
+    res.redirect('/login');
+    return;
+  }
+  res.send(getFileContent('home.html'));
+}
+
+let getLogout = (req,res) => {
+  let sessionid = new Date().getTime();
+  res.set('Set-Cookie', `sessionid=${sessionid}; Expires=${new Date(1).toUTCString()}`);
+  res.redirect('/login');
+}
 
 //----------------------------------------------
 
@@ -71,8 +86,10 @@ app.use(express.urlencoded({
   extended: false,
 }));
 
-app.get('/', redirectToLogin);
+app.get('/', getLoginPage);
 app.get('/login', getLoginPage);
-app.post('/login', getHome);
+app.post('/login', postLogin);
+app.get('/home',getHome);
+app.get('/logout',getLogout);
 
 module.exports = app;

@@ -14,18 +14,27 @@ describe('APP', () => {
     })
   })
   describe('get /', () => {
-    it('should redirect to login page', (done) => {
+    it('serves login page', (done) => {
       request(app)
         .get('/')
-        .expect(302)
-        .expect('Location','/login')
+        .expect(200)
+        .expect(/Login Here/)
+        .end(done);
+    })
+  })
+  describe('get /login', () => {
+    it('serves login page', (done) => {
+      request(app)
+        .get('/login')
+        .expect(200)
+        .expect(/Login Here/)
         .end(done);
     })
   })
   describe('get /home', () => {
     it('should redirect to login page', (done) => {
       request(app)
-        .get('/')
+        .get('/home')
         .expect(302)
         .expect('Location','/login')
         .end(done);
@@ -59,6 +68,15 @@ describe('APP', () => {
         .expect(/Login Failed/)
         .expect(200)
         .expect(th.doesNotHaveCookies)
+        .end(done);
+    })
+  })
+  describe('get /logout', () => {
+    it('redirects to login page', (done) => {
+      request(app)
+        .get('/logout')
+        .expect(302)
+        .expect('Location','/login')
         .end(done);
     })
   })
